@@ -3,6 +3,11 @@
 ---
 
 ## Overview: 
+
+<img src="images/wiring_real.jpg">
+
+> The real node wired on a breadboard
+
 This is an ultra low power (ULP) temperature logging IoT node based on the ESP8266 MCU, and it sends data in JSON format using MQTT.
 
 This node achieves ULP levels thanks to these tricks:

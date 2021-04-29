@@ -56,6 +56,28 @@ We don't actually need every temperature in a whole day (well this is what I tho
 
 ---
 
+## Data parsing algorithm:
+
+The data logger allows for writing data to the flash and parse it in a specific manner.
+
+How it works:
+
+If it's not the last reading of the hour: Wrtie Temp_value + ','
+
+If it's the last reasing of the hour: Write Temp_value + ',' + '#'
+
+Then the parser reads in the file byte per byte recurcively and with the help of a state machine, parse-in each temp value and for each hour's readings produce:
+
+The max Temp_value of the that hour
+
+The min Temp_value of that hour
+
+The mean of all Temp_value(s) of that hour
+
+PS: After each parsing, the file is erased.
+
+---
+
 ## Test:
 
 As shown in the picture below, I slightly modified the code so that it considers 30 passing seconds as a day, and 15 passing seconds as an hour, that way we could test all functionalities in 30 seconds and we end up having 2 hours in our day's data. 
@@ -69,6 +91,12 @@ The second picture is taken from adafruit.io and it's the data that was sent by 
 <img src="images/AIO_data.png">
 
 > The second picture showing the data received by adafruit.io
+
+The data parser was tested by incrementing the numnber of temp values written to it. it reached over 2500 values which is way more than enough to contain all day's values. The picture below shows how the data logger/parser works perfectly, and although concurrent writing to the Flash takes a lot of time (notice the time taken to finish each iteration), the parsing process is quite fast as shown in the last iteration that only performs parsing.
+
+<img src="images/incremental_file_size_parsing.png">
+
+> Picture of the incremental file size parsing process
 
 ---
 

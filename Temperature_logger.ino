@@ -12,14 +12,22 @@
 #include"Data_Logger.h"
 #include"WIFI.h"
 
+// Library to interact with the DHT11 sensor
+#include <DHT_U.h>
+#include <DHT.h>
+
 // Turn ON/OFF debug printing (debugging section won't be included in compiled code when VERBOSE is false) 
 #define VERBOSE                 true
 
 // If this is true, two random numbers in the appropriate range will simulate the Temp & Smoke inputs
-#define SIMULATE_RANDOM         true
+#define SIMULATE_RANDOM         false
 
 // 115.2K baud serial connection to computer
 #define SERIAL_MON_BAUD_RATE    115200
+
+//
+#define DHT_PIN                 13
+#define DHT_TYPE                DHT11
 
 //
 #define SLEEP_TIME              60000000UL  // 1 minute   (uSeconds) (60e6 works too)
@@ -37,6 +45,9 @@
 // 
 #define SEC_IN_DAY              86400
 #define SEC_IN_HOUR             3600
+
+// Create a dht sensor object
+DHT dht(DHT_PIN, DHT_TYPE);
 
 // Functions' prototypes
 float read_temperature(float&);
@@ -58,6 +69,8 @@ void setup(){
   off_unnecessary(); 
 
   check_rtc_mem_validity();
+
+  dht.begin();
   
   // Mount the file-system
   LittleFS.begin();
@@ -108,27 +121,29 @@ void check_for_daily_report(){
   // Read which hour of the day we're in (in seconds)
   ESP.rtcUserMemoryRead(HOUR_COUNTER_RTC_LOC, &hour_counter, sizeof(hour_counter));
 
-  // Viz
-  #if VERBOSE
-    Serial.printf("Wake counter: %d\n", wake_counter);
-    Serial.printf("Hour n°%d of the day\n", hour_counter);
-  #endif
-
   // If we've finished an hour, we need this flag (end_hour) for when we write the temp to the LOG
   // (checking with a tolerance of 1 minute)
   uint32_t hours = (hour_counter+1)*SEC_IN_HOUR;
+
   if((wake_counter - hours >= 0) && (wake_counter - hours <= 60)){
         // hour_counter goes from 0 to 23
         if(++hour_counter == 24)hour_counter = 0;
         end_hour = 1;
       }
 
+  // Viz
+  #if VERBOSE
+    Serial.printf("Wake counter: %d\n", wake_counter);
+    Serial.printf("Hour n°%d of the day\n", hour_counter);
+  #endif
+  
   // It's been a day already
   if(wake_counter >= SEC_IN_DAY){
     communicate_();
     wake_counter = 0;
   }
   else wake_counter += SLEEP_COUNTER;
+
   // Update the values in the RTC memory
   ESP.rtcUserMemoryWrite(HOUR_COUNTER_RTC_LOC, &hour_counter, sizeof(hour_counter));
   ESP.rtcUserMemoryWrite(WAKE_COUNTER_RTC_LOC, &wake_counter, sizeof(wake_counter));
@@ -168,12 +183,12 @@ float read_temperature(float& output){
   
   #if SIMULATE_RANDOM // Simulate sensor's readings with a random number generator
   
-    output = random(0, 100);
+    output = random(0, 50);
   
   #else // Read the sensor values from the two sensors
-    /*
-     * INSERT CODE HERE
-     */
+
+    output = dht.readTemperature();
+    
   #endif
   
 }

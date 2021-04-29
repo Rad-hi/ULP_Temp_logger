@@ -51,6 +51,22 @@ We don't actually need every temperature in a whole day (well this is what I tho
 
 ---
 
+## Test:
+
+As shown in the picture below, I slightly modified the code so that it considers 30 passing seconds as a day, and 15 passing seconds as an hour, that way we could test all functionalities in 30 seconds and we end up having 2 hours in our day's data. 
+
+The second picture is taken from adafruit.io and it's the data that was sent by the node.
+
+<img src="images/One_30s_day.png">
+
+> The first picture showing the 30 seconds long day
+
+<img src "images/AIO_data.png">
+
+> The second picture showing the data received by adafruit.io
+
+---
+
 ## Author info:
 
 [Radhi Sghaier on LinkedIn](https://www.linkedin.com/in/radhi-sghaier/)

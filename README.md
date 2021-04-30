@@ -100,6 +100,17 @@ The data parser was tested by incrementing the numnber of temp values written to
 
 ---
 
+## Stats: 
+
+- ON-time to read value and log it: **~60ms**.
+- ON-time to parse the day's data and send it: **~7500ms**. 
+- ON-time per day: **~1min, 34s**.
+- Power consumption during deep sleep **~20uA**.
+- Power consumption during logging (waking up with RF disabled and Wi-Fi never turned ON): **Average: ~40mA**
+- Power consumption during sending (Wi-Fi ON): **Average: ~80mA**
+
+---
+
 ## Author info:
 
 [Radhi Sghaier on LinkedIn](https://www.linkedin.com/in/radhi-sghaier/)

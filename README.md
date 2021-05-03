@@ -22,6 +22,8 @@ This node achieves ULP levels thanks to these tricks:
 
 - Adopting an edge computing approach, which allows us (with simple, yet smart data processing) to reduce WiFi ON-time to only 6-8 seconds per day, and in the process, save tremendous amounts of energy; longer lasting battery.
 
+**Note**: The use of a DHT11 sensor is temporary since it's not the optimal choice when it comes to low power applications!
+
 ---
 
 ## Technologies used:
@@ -36,7 +38,7 @@ Keeping track of time and successfully sending data each 24h introduced a challe
 
 ## Data provided by the node:
 
-The node sends a JSON file each 24h (approximate, not exactly) that contains 96 values, the **Max**, **Min**, and **Mean** of temperatures for each hour, formatted in this format:
+The node sends a JSON file each 24h (approximate, not exactly) that contains 72 values, the **Max**, **Min**, and **Mean** of temperatures for each hour, formatted in this format:
 
 {"H0":{"mx":"Max_value","mi":"Min_value","mn":"Mean_value"},
  
@@ -52,7 +54,15 @@ The node sends a JSON file each 24h (approximate, not exactly) that contains 96 
 
 }
 
-We don't actually need every temperature in a whole day (well this is what I thought) in order to get useful data, and this is why, instead of going the route of sending a value each 30 min to decrease the ON-time, I'd increase the number of data points by waking up each 1 min to read and log the value, then provide an overview of the Temp in that day. In my opinion, the power saving is worth it.
+We don't actually need every temperature in a whole day (well this is what I think) in order to get useful data, and this is why, instead of going the route of sending a value each 30 min to decrease the ON-time, I'd increase the number of data points by waking up each 1 min to read and log the value, then provide an overview of the Temp in that day. In my opinion, the power saving is worth it.
+
+---
+
+## Data visualization:
+
+In addition to the node, I created a desktop app in **Python** to download and visualize the data for me, as well as format it in CSV format.
+
+Project link for the temperature visualizer: [https://github.com/Rad-hi/Temp_log_visualizer](https://github.com/Rad-hi/Temp_log_visualizer)
 
 ---
 
@@ -103,7 +113,7 @@ The data parser was tested by incrementing the numnber of temp values written to
 ## Stats: 
 
 - ON-time to read value and log it: **~60ms**.
-- ON-time to parse the day's data and send it: **~7500ms**. 
+- ON-time to parse the day's data and send it: **~7500ms**. (**~150ms** for preparing the data)
 - ON-time per day: **~1min, 34s**.
 - Power consumption during deep sleep **~20uA**.
 - Power consumption during logging (waking up with RF disabled and Wi-Fi never turned ON): **Average: ~40mA**

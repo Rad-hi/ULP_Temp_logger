@@ -42,17 +42,11 @@ The node sends a JSON file each 24h (approximate, not exactly) that contains 72 
 
 ```
 {"H0":{"mx":"Max_value","mi":"Min_value","mn":"Mean_value"},
- 
  "H1":{"mx":"Max_value","mi":"Min_value","mn":"Mean_value"},
-
  .
-
  .
-
  .
-
  "H23":{"mx":"Max_value","mi":"Min_value","mn":"Mean_value"}
-
 }
 ```
 

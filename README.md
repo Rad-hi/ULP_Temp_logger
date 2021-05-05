@@ -40,6 +40,7 @@ Keeping track of time and successfully sending data each 24h introduced a challe
 
 The node sends a JSON file each 24h (approximate, not exactly) that contains 72 values, the **Max**, **Min**, and **Mean** of temperatures for each hour, formatted in this format:
 
+```
 {"H0":{"mx":"Max_value","mi":"Min_value","mn":"Mean_value"},
  
  "H1":{"mx":"Max_value","mi":"Min_value","mn":"Mean_value"},
@@ -53,6 +54,7 @@ The node sends a JSON file each 24h (approximate, not exactly) that contains 72 
  "H23":{"mx":"Max_value","mi":"Min_value","mn":"Mean_value"}
 
 }
+```
 
 We don't actually need every temperature in a whole day (well this is what I think) in order to get useful data, and this is why, instead of going the route of sending a value each 30 min to decrease the ON-time, I'd increase the number of data points by waking up each 1 min to read and log the value, then provide an overview of the Temp in that day. In my opinion, the power saving is worth it.
 

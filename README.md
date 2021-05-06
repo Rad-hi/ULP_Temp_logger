@@ -60,6 +60,10 @@ In addition to the node, I created a desktop app in **Python** to download and v
 
 Project link for the temperature visualizer: [https://github.com/Rad-hi/Temp_log_visualizer](https://github.com/Rad-hi/Temp_log_visualizer)
 
+<img src="images/demo.gif">
+
+> Quick running demo of the visualizer
+
 ---
 
 ## Data parsing algorithm:
